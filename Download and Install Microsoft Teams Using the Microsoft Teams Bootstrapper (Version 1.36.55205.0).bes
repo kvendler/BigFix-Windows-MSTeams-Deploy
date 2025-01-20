@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Fixlet>
+		<Title>Download and Install Microsoft Teams Using the Microsoft Teams Bootstrapper (Version 1.36.55205.0)</Title>
+		<Description><![CDATA[<P>This Fixlet will <STRONG>download&nbsp;Microsoft's Teams bootstrapper executable </STRONG>on the targeted device(s). It will also <STRONG>create a Windows batch file</STRONG> to <STRONG>execute the&nbsp;Teams bootstrapper with the required parameters</STRONG>. The execution of this specific Windows batch file will <STRONG>install Microsoft Teams on the device for all users on the targeted device(s).</STRONG></P>
+<P>Notes: This Fixlet uses <STRONG>Version 1.36.55205.0 of the Microsoft Teams Bootstrapper executable</STRONG>. Please update the <STRONG>size, SHA1, and SHA256</STRONG>&nbsp;values in the Action Script as necessary for any updates Microsoft makes to the Teams bootstrapper.</P>]]></Description>
+		<Relevance>name of operating system contains "Win"</Relevance>
+		<Relevance>x64 of operating system</Relevance>
+		<Relevance>not exists find folders "MSTeams*" of folders "\AppData\Local\Microsoft\WindowsApps\" of folders of folder "C:\Users"</Relevance>
+		<Category>Windows Applications</Category>
+		<DownloadSize>1308800</DownloadSize>
+		<Source>Kenneth Vendler</Source>
+		<SourceID></SourceID>
+		<SourceReleaseDate>2025-01-19</SourceReleaseDate>
+		<SourceSeverity>n/a</SourceSeverity>
+		<CVENames>n/a</CVENames>
+		<SANSID>n/a</SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Mon, 20 Jan 2025 23:05:48 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to deploy this action.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Download the teamsbootstrapper.exe file from Microsoft and validate the size and checksums. Ensure that you modify the size and checksum values as Microsoft updates the bootstrapper
+prefetch teamsbootstrapper.exe sha1:7d683189aa41e63f27752a3b2b110511079a3179 size:1308800 https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409\teamsbootstrapper.exe sha256:e7f8aa05bdf853212d5e978bdc2d46a58f47c8f96826192fa49fc4b0c78c3879
+
+// Create a Windows batch file to execute the bootstrapper file on the targeted device(s)
+createfile until EOF
+"{pathname of client folder of current site & "\__Download\teamsbootstrapper.exe"}" -p
+EOF
+
+// Copy the Windows batch file to C:\teamsbootstrap.bat on the targeted devices(s), execute it, and when completed, delete the Windows batch file
+delete C:\teamsbootstrap.bat
+copy __createfile C:\teamsbootstrap.bat
+waithidden C:\teamsbootstrap.bat
+delete C:\teamsbootstrap.bat
+]]></ActionScript>
+			<SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+		</DefaultAction>
+	</Fixlet>
+</BES>
